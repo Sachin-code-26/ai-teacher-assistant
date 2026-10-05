@@ -19,7 +19,11 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "/api", // Vite proxy will forward this to http://localhost:5000/api
+  // In production (Vercel): VITE_API_URL = https://ai-teacher-assistant-c81g.onrender.com
+  // In development: falls back to /api  (Vite proxy → localhost:5000)
+  baseURL: import.meta.env.VITE_API_URL
+    ? `${import.meta.env.VITE_API_URL}/api`
+    : "/api",
   withCredentials: true, // IMPORTANT: send/receive HTTP-only cookies
   headers: {
     "Content-Type": "application/json",
