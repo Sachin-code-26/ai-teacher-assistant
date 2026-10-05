@@ -43,7 +43,9 @@ const PORT = process.env.PORT || 5000;
 // Without this, browsers block cross-origin requests.
 app.use(
   cors({
-    origin: process.env.CLIENT_URL || "http://localhost:5173",
+    origin: process.env.NODE_ENV === "production"
+      ? ["https://ai-teacher-assistant-client-jaoww8gvf.vercel.app", process.env.CLIENT_URL].filter(Boolean)
+      : "http://localhost:5173",
     credentials: true, // Allow cookies to be sent cross-origin
   })
 );
