@@ -1,20 +1,28 @@
-# Dependencies
+# ── Dependencies ──────────────────────────────────────────────
 node_modules/
 
-# Environment variables — NEVER commit this
+# ── Environment variables (NEVER commit these) ────────────────
 .env
+.env.local
+.env.production
 
-# Build output
+# ── Build output ──────────────────────────────────────────────
 dist/
 build/
 
-# OS files
-.DS_Store
-Thumbs.db
+# ── Uploaded files (local dev only) ──────────────────────────
+server/uploads/
 
-# Logs
+# ── Logs ──────────────────────────────────────────────────────
 *.log
 npm-debug.log*
+yarn-debug.log*
 
-# Uploaded files (if stored locally during dev)
-uploads/
+# ── OS / Editor ───────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# ── Misc ──────────────────────────────────────────────────────
+*.pdf
