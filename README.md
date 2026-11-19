@@ -2,6 +2,14 @@
 
 A full-stack MERN web application where teachers create assignments with grading rubrics, students upload PDF answers, and Google Gemini AI automatically evaluates submissions with detailed, rubric-based feedback.
 
+## 🌐 Live Demo
+
+| | Link |
+|---|---|
+| **Frontend App** | [https://client-two-livid-13.vercel.app](https://client-two-livid-13.vercel.app) |
+| **Backend API** | [https://server-gamma-cyan.vercel.app/api/health](https://server-gamma-cyan.vercel.app/api/health) |
+| **GitHub Repo** | [https://github.com/Sachin-code-26/ai-teacher-assistant](https://github.com/Sachin-code-26/ai-teacher-assistant) |
+
 ![Node.js](https://img.shields.io/badge/Node.js-339933?style=flat&logo=nodedotjs&logoColor=white)
 ![React](https://img.shields.io/badge/React-61DAFB?style=flat&logo=react&logoColor=black)
 ![MongoDB](https://img.shields.io/badge/MongoDB-47A248?style=flat&logo=mongodb&logoColor=white)
