@@ -110,24 +110,22 @@ app.use((err, req, res, next) => {
 
 // =============================================================
 //  START SERVER
-//  We connect to MongoDB first, then start listening.
-//  This ensures we don't accept requests before the DB is ready.
+//  On Vercel (serverless): export the app — Vercel calls it directly.
+//  Locally (development): call app.listen() to start a real server.
 // =============================================================
-const startServer = async () => {
-  // Start listening first so the health check always works
+
+// Connect to MongoDB (runs once on cold start in both environments)
+connectDB().catch((err) => {
+  console.error("⚠️  MongoDB connection failed:", err.message);
+});
+
+// In development, start a real HTTP server
+if (process.env.NODE_ENV !== "production") {
   app.listen(PORT, () => {
     console.log(`✅ Server running on http://localhost:${PORT}`);
     console.log(`📋 Environment: ${process.env.NODE_ENV}`);
   });
+}
 
-  // Then attempt to connect to MongoDB
-  try {
-    await connectDB();
-  } catch (error) {
-    console.error("⚠️  MongoDB not available:", error.message);
-    console.error("   → Start MongoDB and restart the server for DB features.");
-    // We don't exit in development — the server still responds to health checks
-  }
-};
-
-startServer();
+// Export for Vercel serverless runtime
+export default app;
