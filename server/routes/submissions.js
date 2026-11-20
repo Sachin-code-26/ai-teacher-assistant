@@ -34,16 +34,32 @@ import { protect, teacherOnly, studentOnly } from "../middleware/authMiddleware.
 
 // ── Multer configuration ─────────────────────────────────────
 
-// Ensure the temp uploads directory exists
-const uploadDir = path.join(process.cwd(), "uploads");
-if (!fs.existsSync(uploadDir)) {
-  fs.mkdirSync(uploadDir, { recursive: true });
+// On Vercel (serverless), the filesystem is read-only except /tmp.
+// In development, we use a local "uploads/" folder.
+// We use os.tmpdir() which works on both environments.
+import os from "os";
+
+const uploadDir = process.env.NODE_ENV === "production"
+  ? path.join(os.tmpdir(), "uploads")
+  : path.join(process.cwd(), "uploads");
+
+try {
+  if (!fs.existsSync(uploadDir)) {
+    fs.mkdirSync(uploadDir, { recursive: true });
+  }
+} catch {
+  // Silently ignore — directory may already exist or will be created on demand
 }
 
 const storage = multer.diskStorage({
-  destination: (_req, _file, cb) => cb(null, uploadDir),
+  destination: (_req, _file, cb) => {
+    // Ensure dir exists at request time (Vercel /tmp can be cleared between invocations)
+    if (!fs.existsSync(uploadDir)) {
+      fs.mkdirSync(uploadDir, { recursive: true });
+    }
+    cb(null, uploadDir);
+  },
   filename: (_req, file, cb) => {
-    // Sanitize and timestamp the filename to avoid collisions
     const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
     cb(null, uniqueSuffix + path.extname(file.originalname));
   },
